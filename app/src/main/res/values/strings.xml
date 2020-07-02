@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Opinion Poll</string>
+    <string name="login">Log In</string>
+    <string name="request_otp">Request OTP</string>
+</resources>

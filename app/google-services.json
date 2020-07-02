@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "824376832973",
+    "firebase_url": "https://opinion-poll-d09ac.firebaseio.com",
+    "project_id": "opinion-poll-d09ac",
+    "storage_bucket": "opinion-poll-d09ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824376832973:android:10efe32971996fe52f8a84",
+        "android_client_info": {
+          "package_name": "com.pravesh.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824376832973-fvncvjah1dn9rn1ltcqp6ic2c6k66oke.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU-hwPZwQ-OqH8E7lzqXlqaTIXDtQ5ixs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "824376832973-fvncvjah1dn9rn1ltcqp6ic2c6k66oke.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
