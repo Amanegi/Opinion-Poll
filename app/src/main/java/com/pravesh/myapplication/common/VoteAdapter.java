@@ -76,6 +76,7 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.MyVoteHolder> 
         documentReference.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
+                holder.txtDate.setText("Added on " + documentSnapshot.getString("date"));
                 List<String> numbersVoted = (List<String>) documentSnapshot.get("votedBy");
                 if (numbersVoted != null && numbersVoted.contains(sharedPreferences.getString("phone", null))) {
                     alreadyVoted[0] = true;
@@ -113,10 +114,11 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.MyVoteHolder> 
                                 documentReference.update("votedBy", FieldValue.arrayUnion(phone)).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        alreadyVoted[0] = true;
                                         FancyToast.makeText(context, "Voted", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
                                         holder.optionGroup.setVisibility(View.GONE);
                                         holder.btnVote.setEnabled(false);
-                                        holder.btnVote.setVisibility(View.INVISIBLE);
+                                        holder.btnVote.setVisibility(View.GONE);
                                         drawChart(documentReference, question, holder.pieChart);
                                         holder.pieChart.setVisibility(View.VISIBLE);
                                         handler.postDelayed(new Runnable() {
@@ -178,15 +180,17 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.MyVoteHolder> 
                 long option2Selected = (long) documentSnapshot.get("option2Selected");
                 long option3Selected = (long) documentSnapshot.get("option3Selected");
                 long option4Selected = (long) documentSnapshot.get("option4Selected");
+                if(option1Selected!=0)
                 entryList.add(new PieEntry(option1Selected, question.getOption1()));
+                if(option2Selected!=0)
                 entryList.add(new PieEntry(option2Selected, question.getOption2()));
-                if (!question.getOption3().equals(""))
+                if (!question.getOption3().equals("")&&option3Selected!=0)
                     entryList.add(new PieEntry(option3Selected, question.getOption3()));
-                if (!question.getOption4().equals("")) {
+                if (!question.getOption4().equals("")&&option4Selected!=0) {
                     entryList.add(new PieEntry(option4Selected, question.getOption4()));
                 }
                 PieDataSet dataSet = new PieDataSet(entryList, "");
-                dataSet.setSliceSpace(2f);
+                dataSet.setSliceSpace(7f);
                 dataSet.setSelectionShift(4f);
                 dataSet.setColors(colors);
                 PieData data = new PieData(dataSet);
@@ -210,7 +214,7 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.MyVoteHolder> 
     }
 
     public class MyVoteHolder extends RecyclerView.ViewHolder {
-        TextView txtQuestion;
+        TextView txtQuestion, txtDate;
         ImageView moreBtn, lessBtn;
         RadioGroup optionGroup;
         RadioButton option1, option2, option3, option4;
@@ -220,6 +224,7 @@ public class VoteAdapter extends RecyclerView.Adapter<VoteAdapter.MyVoteHolder> 
         public MyVoteHolder(@NonNull View itemView) {
             super(itemView);
             txtQuestion = itemView.findViewById(R.id.txtQuestion);
+            txtDate = itemView.findViewById(R.id.txtDate);
             option1 = itemView.findViewById(R.id.radio1);
             option2 = itemView.findViewById(R.id.radio2);
             option3 = itemView.findViewById(R.id.radio3);

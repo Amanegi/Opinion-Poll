@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     Button btnLogin;
     EditText edtMobile, edtOtp;
     MaterialButton btnRequestOtp;
-    String codeSent;
+    String codeSent, name, phone, type;
     FirebaseAuth auth;
     FirebaseFirestore database;
     CountDownTimer timer;
@@ -170,9 +170,17 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             if (radioAdmin.isChecked()) {
+                                editor.putString("name", name);
+                                editor.putString("phone", phone);
+                                editor.putString("type", type);
+                                editor.apply();
                                 startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
                             } else {
                                 Intent i = new Intent(LoginActivity.this, VoteActivity.class);
+                                editor.putString("name", name);
+                                editor.putString("phone", phone);
+                                editor.putString("type", type);
+                                editor.apply();
                                 i.putExtra("type", "userType");
                                 startActivity(i);
                             }
@@ -214,13 +222,9 @@ public class LoginActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data admin: " + document.getData());
-                            editor.putString("addedBy", document.getString("addedBy"));
-                            editor.putString("houseNo", document.getString("houseNo"));
-                            editor.putString("name", document.getString("name"));
-                            editor.putString("phone", document.getString("phone"));
-                            editor.putString("type", "admin");
-                            Log.d(TAG, "user phone  " + document.getString("phone"));
-                            editor.apply();
+                            name = document.getString("name");
+                            phone = document.getString("phone");
+                            type = "admin";
                             triggerTimer();
                         } else {
                             showToast("You are not a valid admin yet please contact administrator", FancyToast.ERROR);
@@ -239,12 +243,9 @@ public class LoginActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             Log.d(TAG, "DocumentSnapshot data user: " + document.getData());
-                            editor.putString("addedBy", document.getString("addedBy"));
-                            editor.putString("houseNo", document.getString("houseNo"));
-                            editor.putString("name", document.getString("name"));
-                            editor.putString("phone", document.getString("phone"));
-                            editor.putString("type", "user");
-                            editor.apply();
+                            name = document.getString("name");
+                            phone = document.getString("phone");
+                            type = "user";
                             triggerTimer();
                         } else {
                             showToast("You are not a valid user yet please contact administrator", FancyToast.ERROR);
@@ -272,6 +273,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFinish() {
                 btnRequestOtp.setEnabled(true);
                 btnRequestOtp.setText("Request OTP");
+                verifyAnim.pauseAnimation();
             }
         }.start();
         final Handler handler = new Handler();
@@ -280,7 +282,7 @@ public class LoginActivity extends AppCompatActivity {
             public void run() {
                 requestOtp();
             }
-        }, 1000 * 4);
+        }, 1000 * 3);
     }
 
     private void showToast(String message, int type) {

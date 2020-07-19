@@ -32,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.pravesh.myapplication.R;
-import com.pravesh.myapplication.admin.AdminAdapter;
+import com.pravesh.myapplication.admin.adapter.AdminAdapter;
 import com.pravesh.myapplication.entities.Admin;
 import com.pravesh.myapplication.util.Constants;
 import com.pravesh.myapplication.util.CustomDialog;

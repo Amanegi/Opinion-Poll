@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +24,8 @@ import com.pravesh.myapplication.R;
 import com.pravesh.myapplication.util.Constants;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +36,9 @@ public class AddQuestionActivity extends AppCompatActivity {
     ImageView bckBtn;
     LinearLayout savingLinear;
     LottieAnimationView savingAnim;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private String date;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +55,9 @@ public class AddQuestionActivity extends AppCompatActivity {
         savingAnim = findViewById(R.id.savingAnim);
 
         database = FirebaseFirestore.getInstance();
+        calendar = Calendar.getInstance();
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        date = dateFormat.format(calendar.getTime());
         bckBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,17 +98,18 @@ public class AddQuestionActivity extends AppCompatActivity {
         editor.apply();
         String questionCode = sharedPreferences.getString("phone", null) + " " + questionId;
         Map<String, Object> questionMap = new HashMap<>();
-        questionMap.put("questionId",questionCode);
+        questionMap.put("questionId", questionCode);
         questionMap.put("questionText", question);
         questionMap.put("option1", option1);
         questionMap.put("option2", option2);
         questionMap.put("option3", option3);
         questionMap.put("option4", option4);
         questionMap.put("addedBy", addedBy);
-        questionMap.put("option1Selected",0);
-        questionMap.put("option2Selected",0);
-        questionMap.put("option3Selected",0);
-        questionMap.put("option4Selected",0);
+        questionMap.put("option1Selected", 0);
+        questionMap.put("option2Selected", 0);
+        questionMap.put("option3Selected", 0);
+        questionMap.put("option4Selected", 0);
+        questionMap.put("date",date);
 
         database.collection(Constants.DATABASE_QUESTION).document(questionCode).
                 set(questionMap).addOnSuccessListener(new OnSuccessListener<Void>() {

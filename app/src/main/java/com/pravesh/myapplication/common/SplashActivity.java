@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.airbnb.lottie.LottieAnimationView;
 import com.pravesh.myapplication.R;
 import com.pravesh.myapplication.admin.activities.AdminDashboardActivity;
+import com.pravesh.myapplication.util.Constants;
 
 public class SplashActivity extends AppCompatActivity {
     private LottieAnimationView loadingAnimation;
@@ -28,21 +29,21 @@ public class SplashActivity extends AppCompatActivity {
 
         loadingAnimation = findViewById(R.id.animation_view);
         loadingAnimation.playAnimation();
-        sharedPreferences = getSharedPreferences("data", MODE_PRIVATE);
-        final String phone = sharedPreferences.getString("phone", "");
-        final String type = sharedPreferences.getString("type", "");
+        sharedPreferences = getSharedPreferences(Constants.SHAREDPREFERENCES_FILE, MODE_PRIVATE);
+        final String phone = sharedPreferences.getString("phone", null);
+        final String type = sharedPreferences.getString("type", null);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (phone.equals("")) {
+                if (phone==null) {
                     startActivity(new Intent(SplashActivity.this, LoginActivity.class));
                 }
-                if (!phone.equals("") && type.equals("admin")) {
+                if (phone!=null && type.equals("admin")) {
                     startActivity(new Intent(SplashActivity.this, AdminDashboardActivity.class));
                 }
-                if (!phone.equals("") && type.equals("user")) {
+                if (phone!=null && type.equals("user")) {
                     Intent i = new Intent(SplashActivity.this, VoteActivity.class);
                     i.putExtra("type","userType");
                     startActivity(i);

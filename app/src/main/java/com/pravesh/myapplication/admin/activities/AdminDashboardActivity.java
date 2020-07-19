@@ -103,5 +103,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
         editor.clear();
         editor.apply();
         startActivity(new Intent(AdminDashboardActivity.this, LoginActivity.class));
+        finish();
     }
 }

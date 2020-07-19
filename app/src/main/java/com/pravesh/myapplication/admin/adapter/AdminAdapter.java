@@ -1,4 +1,4 @@
-package com.pravesh.myapplication.admin;
+package com.pravesh.myapplication.admin.adapter;
 
 import android.content.Context;
 import android.content.Intent;
